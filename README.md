@@ -7,7 +7,7 @@
 
 # About
 
-A boilerplate / skeleton for [Storybook](https://storybook.js.org/) with vanilla html and auto-generating [Dominator](https://github.com/Pauan/rust-dominator) code.
+A boilerplate / skeleton for [Storybook](https://storybook.js.org/) with vanilla html and auto-generating [Dominator](https://github.com/Pauan/rust-dominator) code (via [html-to-dominator-string](https://github.com/dakom/html-to-dominator-string).
 
 It's also setup to allow loading media from an external location like a CDN, while having a local static server for development.
 
