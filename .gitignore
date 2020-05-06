@@ -1,7 +1,6 @@
 __auto-generated.scss
 dist
 node_modules
-.env
 target
 wasm-pack.log
 yarn-*.log
