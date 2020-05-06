@@ -7,7 +7,7 @@
 
 # About
 
-A boilerplate / skeleton for [Storybook](https://storybook.js.org/) with simple html markup and auto-generating [Dominator](https://github.com/Pauan/rust-dominator) code.
+A boilerplate / skeleton for [Storybook](https://storybook.js.org/) with vanilla html and auto-generating [Dominator](https://github.com/Pauan/rust-dominator) code.
 
 It's also setup to allow loading media from an external location like a CDN, while having a local static server for development.
 
@@ -15,21 +15,30 @@ It's also setup to allow loading media from an external location like a CDN, whi
 
 # User Guide
 
-Navigate the components, and check out the HTML as well as Dominator string in the `Notes` section:
+The special sauce is in the `Notes` button :)
 
-You need to use the search or drill down the tree, [expand-all isn't supported](https://github.com/storybookjs/storybook/issues/244#issuecomment-570438912)
+To navigate components, you need to use the search or drill down the tree since [expand-all isn't supported](https://github.com/storybookjs/storybook/issues/244#issuecomment-570438912)
 
 # Dev Guide
 
 ## Overview 
 
 * `npm start`
+* Make sure to add stories via the `story()` or `storyAbout()` wrappers exported in `@utils/stories`. These will automatically create the `Notes` section.
 * Do not import styles to stories. Styles are globally available (imagine it's imported in `<head>`)
 * Third-party styles and fonts should be added to `<head>` (via [preview-head.html](.storybook/preview-head.html))
 * The only thing that is directly exported is CSS. Everything else is solely for reference and will not be exported at all.
-* The Add-Ons panel is hidden by default, but can be toggled by hitting the `A` key
-* Make sure to add stories via the `story()` or `storyAbout()` wrappers exported in `@utils/stories`. These will automatically create the `Notes` section.
 * Separate stories vs. HTML snippets. Conceptually, the HTML snippets are _components_ and can be composed to create different, larger components.
+* The Add-Ons panel is hidden by default, but can be toggled by hitting the `A` key
+
+## Live Media Storage (production deploy only)
+
+Change `MEDIA_URL` in:
+
+* [write-dynamic-sass.js](build-utils/write-dynamic-sass.js)
+* [path.js](src/utils/path.js)
+
+And the target folder in [copy-media-directory.js](build-utils/copy-media-directory.js)
 
 ## Auto-generated styles
 
@@ -39,10 +48,6 @@ It contains some ad-hoc sass functionality that can be used anywhere (it is impo
 
 * `@mixin bg_img($path)`: translates to `background-image: url(CDN_UI_PATH + $path)` where CDN_UI_PATH is swapped based on the environment
 
-## Requirements
-
-* [sass cli](https://sass-lang.com/install)
-* [npm and stuff](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ## .env
 
@@ -53,15 +58,16 @@ In this example it's just `_static-media` in the same directory as the repo
 
 On windows it should be the native windows path format, e.g. `"D:\\Dropbox\\Whatever"`
 
+
+Usually this file would be .gitignored, but it's checked in here for reference purposes
+
 ## CI/CD Secrets
 
 * GH_PAT (a github deployment token [see here](https://github.com/maxheld83/ghpages/pull/18)) 
 
-## Live Media Storage (production deploy only)
+This isn't really necessary, except it makes it easier to deploy to gh_pages though github actions
 
-Change `MEDIA_URL` in:
+## Requirements
 
-* [write-dynamic-sass.js](build-utils/write-dynamic-sass.js)
-* [path.js](src/utils/path.js)
-
-And the target folder in [copy-media-directory.js](build-utils/copy-media-directory.js)
+* [sass cli](https://sass-lang.com/install)
+* [npm and stuff](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
