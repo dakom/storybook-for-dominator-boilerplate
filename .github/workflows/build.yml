@@ -1,0 +1,50 @@
+name: Test, Build, and Deploy
+
+on: [push]
+    
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v1
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: download sass release
+        run: curl -u dakom:"$GITHUB_TOKEN" -s https://api.github.com/repos/sass/dart-sass/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | xargs -I {} wget -c https://github.com/sass/dart-sass/releases/latest/download/dart-sass-{}-linux-x64.tar.gz -O sass.tgz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: extract sass to folder 
+        run: mkdir sass && tar -zxvf ./sass.tgz -C sass --strip-components 1
+
+      - name: add sass to path
+        uses: dakom/actions-path@master
+        with:
+          path: ${{github.workspace}}/sass
+
+      - name: install node
+        uses: actions/setup-node@v1
+
+      - name: install npm deps
+        run: npm install
+
+      - name: build 
+        run: npm run storybook:build-release
+
+      - name: deploy to gh_pages
+        uses: maxheld83/ghpages@master
+        env:
+          BUILD_DIR: "dist/storybook-build/"
+          GH_PAT: ${{ secrets.GH_PAT }}
