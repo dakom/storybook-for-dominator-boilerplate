@@ -43,6 +43,9 @@ jobs:
       - name: build 
         run: npm run storybook:build-release
 
+      - name: bypass jekyll weirdness
+        run: touch dist/storybook-build/.nojekyll
+
       - name: deploy to gh_pages
         uses: maxheld83/ghpages@master
         env:
