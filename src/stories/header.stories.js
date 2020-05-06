@@ -5,7 +5,6 @@ export default {
   title: 'Global Header',
 }
 
-export const NotLoggedIn = story("not logged in", () => header(false));
 export const LoggedIn = storyAbout(
     "logged in", 
     () => header(true), 
@@ -13,3 +12,5 @@ export const LoggedIn = storyAbout(
       Happens with the auth system
     `
 );
+
+export const NotLoggedIn = story("not logged in", () => header(false));

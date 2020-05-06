@@ -1,1 +1,1 @@
-import '!style-loader!css-loader!../dist/index.css';
+import "../dist/index.css";

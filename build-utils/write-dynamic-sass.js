@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 const MEDIA_URL = process.env["NODE_ENV"] === "development" 
         ? 'http://localhost:4102'
-        : "https://example.com/cdn";
+        : "https://dakom.github.io/storybook-for-dominator-boilerplate/_static-media";
 
 const str = `
 @mixin bg_img($path) {

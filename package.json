@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm-run-all -p _media-server _sass-watch _storybook-watch",
-    "storybook:build-release": "npm run _sass-build-release && build-storybook -o ./dist/storybook-build",
+    "storybook:build-release": "npm run _sass-build-release && build-storybook -o ./dist/storybook-build && npm run _copy-static",
+    "_copy-static": "node ./build-utils/copy-media-directory.js",
     "clean": "rimraf ./dist",
     "_media-server": "node ./build-utils/local-media-server.js",
     "_storybook-watch": "start-storybook -p 6006",
@@ -32,7 +33,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs-extra": "^9.0.0",
-    "html-to-dominator-string": "^1.0.0",
+    "html-to-dominator-string": "^1.7.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "serve-index": "^1.9.1"
