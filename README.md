@@ -18,7 +18,7 @@ It's fundamentally a boilerplate / skeleton for [Storybook](https://storybook.js
 * PostCSS + TailwindCSS
 * Separate media location
 * Dual environment setup (load media locally vs. remote CDN)
-* At build time, generates both a [styles.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.css) with source maps and a greatly minified [styles.min.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.min.css) and makes them available in the website root.
+* At build time, generates both a greatly minified production-target [styles.min.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.min.css) and a developer-environment (source maps and local server target) [styles.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.css)
 
 # User Guide
 
