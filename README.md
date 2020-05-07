@@ -3,7 +3,7 @@
 # [https://dakom.github.io/storybook-for-dominator-boilerplate](https://dakom.github.io/storybook-for-dominator-boilerplate)
 
 
-![Demo Screengrab](https://i.imgur.com/ahgHLLU.gif)
+![Demo Screengrab](https://i.imgur.com/u3rMm0j.gif)
 
 # About
 
