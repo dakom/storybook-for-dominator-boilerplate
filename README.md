@@ -7,11 +7,18 @@
 
 # About
 
-A boilerplate / skeleton for [Storybook](https://storybook.js.org/) with vanilla html and auto-generating [Dominator](https://github.com/Pauan/rust-dominator) code (via [html-to-dominator-string](https://github.com/dakom/html-to-dominator-string).
+The intent is that the UI developer works with this project to finalize HTML and CSS. At build time, a final `styles.css` is produced which can be used as-is in the target project, distributed as an independant library, loaded remotely, etc.
 
-It's also setup to allow loading media from an external location like a CDN, while having a local static server for development.
+HTML and/or Dominator source code can be copied from the Storybook Notes tab here, and pasted into the app source code as a starting point for adding all the interactivity.
 
-(both in styles via a sass mixin and html via a JS function)
+It's fundamentally a boilerplate / skeleton for [Storybook](https://storybook.js.org/) with:
+
+* [Rust Dominator](https://github.com/Pauan/rust-dominator) code (via [html-to-dominator-string](https://github.com/dakom/html-to-dominator-string).
+* Vanilla html
+* PostCSS + TailwindCSS
+* Separate media location
+* Dual environment setup (load media locally vs. remote CDN)
+* At build time, generates both a [styles.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.css) with source maps and a greatly minified [styles.min.css](https://dakom.github.io/storybook-for-dominator-boilerplate/dist/styles.min.css) and makes them available in the website root.
 
 # User Guide
 
@@ -21,53 +28,34 @@ To navigate components, you need to use the search or drill down the tree since 
 
 # Dev Guide
 
-## Overview 
+## One-time configuration 
 
-* `npm start`
-* Make sure to add stories via the `story()` or `storyAbout()` wrappers exported in `@utils/stories`. These will automatically create the `Notes` section.
-* Do not import styles to stories. Styles are globally available (imagine it's imported in `<head>`)
-* Third-party styles and fonts should be added to `<head>` (via [preview-head.html](.storybook/preview-head.html))
-* The only thing that is directly exported is CSS. Everything else is solely for reference and will not be exported at all.
-* Separate stories vs. HTML snippets. Conceptually, the HTML snippets are _components_ and can be composed to create different, larger components.
-* The Add-Ons panel is hidden by default, but can be toggled by hitting the `A` key
+Change `REMOTE_STATIC` (and other media path variables) in:
 
-## Live Media Storage (production deploy only)
-
-Change `MEDIA_URL` in:
-
-* [write-dynamic-sass.js](build-utils/write-dynamic-sass.js)
+* [postcss.config.js](postcss.config.js)
 * [path.js](src/utils/path.js)
 
-And the target folder in [copy-media-directory.js](build-utils/copy-media-directory.js)
+Change `LOCAL_CDN_DIR` in `.env` to the local directory which serves as a mirror of the remote CDN. Usually this file would be .gitignored but it's checked in here for reference purposes
 
-## Auto-generated styles
+Change `TARGET_DIRECTORY` in [copy-media-directory.js](build-utils/copy-media-directory.js) for where the "remote" media should be copied to. _Note: this likely won't exist on a larger project - it's only here for demo purposes, where the media lives in the same repo as the source code_.
 
-There is a top-level `src/css/__auto-generated.scss` which is gitignored, since the entire point is that it differs in a dev vs. release environment.
+Add Github Secrets:
 
-It contains some ad-hoc sass functionality that can be used anywhere (it is imported at the top of index.scss for this reason):
+* GH_PAT (a github deployment token [see here](https://github.com/maxheld83/ghpages/pull/18)) - only for deploying to gh_pages
 
-* `@mixin bg_img($path)`: translates to `background-image: url(CDN_UI_PATH + $path)` where CDN_UI_PATH is swapped based on the environment
+## Media paths in code
 
+The above configuration allows using `%VAR_NAME%` in CSS and `Path.fn()` in JS in order to get the runtime url, without having to worry about the environment at all.
 
-## .env
+See [images.css](src/css/images.css) and [images.js](src/html/images.js) for examples.
 
-* LOCAL_CDN_DIR="[PATH-TO-CDN-FOLDER]" 
+## General Overview 
 
-The path to the local directory which is synced to the remote cdn origin.
-In this example it's just `_static-media` in the same directory as the repo
-
-On windows it should be the native windows path format, e.g. `"D:\\Dropbox\\Whatever"`
-
-
-Usually this file would be .gitignored, but it's checked in here for reference purposes
-
-## CI/CD Secrets
-
-* GH_PAT (a github deployment token [see here](https://github.com/maxheld83/ghpages/pull/18)) 
-
-This isn't really necessary, except it makes it easier to deploy to gh_pages though github actions
-
-## Requirements
-
-* [sass cli](https://sass-lang.com/install)
-* [npm and stuff](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* `npm start`
+* The entry point for CSS bundling is [imports.css](src/imports.css)
+* Make sure to add stories via the `story()` or `storyAbout()` wrappers exported in `@utils/stories`. These will automatically create the `Notes` section. Failure to do this will result in no Notes.
+* Do not import styles to stories. Styles are bundled independantly and imported as a single `styles.css`.
+* Third-party styles and fonts should be added to `<head>` (via [preview-head.html](.storybook/preview-head.html))
+* The only thing that is directly exported is CSS. Everything else is solely for reference and will not be exported at all.
+* Stories should merely be thin layers over HTML components. The HTML components should be composed to create different, larger components.
+* The Add-Ons panel is hidden by default, but can be toggled by hitting the `A` key

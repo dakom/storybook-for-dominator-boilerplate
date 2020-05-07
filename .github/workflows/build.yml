@@ -21,24 +21,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: download sass release
-        run: curl -u dakom:"$GITHUB_TOKEN" -s https://api.github.com/repos/sass/dart-sass/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | xargs -I {} wget -c https://github.com/sass/dart-sass/releases/latest/download/dart-sass-{}-linux-x64.tar.gz -O sass.tgz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: extract sass to folder 
-        run: mkdir sass && tar -zxvf ./sass.tgz -C sass --strip-components 1
-
-      - name: add sass to path
-        uses: dakom/actions-path@master
-        with:
-          path: ${{github.workspace}}/sass
-
       - name: install node
         uses: actions/setup-node@v1
 
       - name: install npm deps
         run: npm install
+
+      - name: test
+        run: npm test
 
       - name: build 
         run: npm run storybook:build-release

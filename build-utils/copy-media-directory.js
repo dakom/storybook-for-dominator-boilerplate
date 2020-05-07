@@ -1,3 +1,5 @@
+const TARGET_DIRECTORY = `_static-media`;
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -11,8 +13,8 @@ if(!process.env.LOCAL_CDN_DIR || process.env.LOCAL_CDN_DIR === "") {
 
 const srcPath = path.resolve(process.env.LOCAL_CDN_DIR);
 
-const targetPath = path.resolve(`./dist/storybook-build/_static-media`);
+const targetPath = path.resolve(`./dist/storybook-build/${TARGET_DIRECTORY}`);
 
 fs.copy(srcPath, targetPath)
-  .then(() => console.log('copied media folder'))
+  .then(() => console.log('copied media directory'))
   .catch(err => console.error(err))

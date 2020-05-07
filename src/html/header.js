@@ -1,20 +1,18 @@
-import {Path} from "@utils/path";
-
 export const header = (loggedIn) => `
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
+<header class="fancy">
+  <div class="flex mb-4">
+    <div class="cell">
         One of three columns
-      </div>
-      <div class="col-sm">
-        <div class="green large">Two of three columns</div>
-      </div>
-      <div class="col-sm">
+    </div>
+    <div class="cell bg-indigo-100">
+        <div class="green text-4xl">Two of three columns</div>
+    </div>
+    <div class="cell">
         ${loggedIn 
             ? `Profile`
             : `Sign in`
          }
-      </div>
     </div>
   </div>
+</header>
 `;
