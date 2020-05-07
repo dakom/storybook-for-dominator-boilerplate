@@ -1,8 +1,8 @@
-const REMOTE_STATIC = process.env["NODE_ENV"] === "development" 
+export const REMOTE_STATIC = process.env["NODE_ENV"] === "development" 
         ? 'http://localhost:4102'
         : "https://dakom.github.io/storybook-for-dominator-boilerplate/_static-media";
 
-const REMOTE_UI = `${REMOTE_STATIC}/app/ui`;
+export const REMOTE_UI = `${REMOTE_STATIC}/app/ui`;
 
 export const Path = (() => {
 
