@@ -18,11 +18,13 @@ export const storyAbout = (name, component, aboutMarkdown) => {
 
 const makeParameters = component => {
     const html = component();
-    const dominator = invert_media (dominator_replacer) (htmlToDominator(component()));
+    const dominatorTrimmed = invert_media (dominator_replacer) (htmlToDominator(component(), {trim: true}));
+    const dominatorNotTrimmed = invert_media (dominator_replacer) (htmlToDominator(component(), {trim: false}));
     return {
         notes: {
             html: "```html\n" + html + "\n```",
-            dominator: "```rust\n" + dominator + "\n```",
+            dominator: "```rust\n" + dominatorNotTrimmed + "\n```",
+            dominatorTrimmed: "```rust\n" + dominatorTrimmed + "\n```",
         }
     }
 }

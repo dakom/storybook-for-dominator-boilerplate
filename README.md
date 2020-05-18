@@ -11,6 +11,8 @@ The intent is that the UI developer works with this project to finalize HTML and
 
 HTML and/or Dominator source code can be copied from the Storybook Notes tab here, and pasted into the app source code as a starting point for adding all the interactivity.
 
+The Dominator tabs are for different config options (would be nice to have that as toggles here, but right now there's only one option, so no biggie)
+
 It's fundamentally a boilerplate / skeleton for [Storybook](https://storybook.js.org/) with:
 
 * [Rust Dominator](https://github.com/Pauan/rust-dominator) code (via [html-to-dominator-string](https://github.com/dakom/html-to-dominator-string).
